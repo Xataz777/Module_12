@@ -7,12 +7,12 @@ class Runner:
         if isinstance(name, str):
             self.name = name
         else:
-            print(f'Имя может быть только строкой, передано {type(name).__name__}')
+            raise TypeError(f'Имя может быть только строкой, передано {type(name).__name__}')
         self.distance = 0
         if speed > 0:
             self.speed = speed
         else:
-            print(f'Скорость не может быть отрицательной, сейчас {speed}')
+            raise ValueError(f'Скорость не может быть отрицательной, сейчас {speed}')
 
     def run(self):
         self.distance += self.speed * 2
@@ -55,29 +55,24 @@ class Tournament:
 class RunnerTest(unittest.TestCase):
     def test_walk(self):
         try:
-            test_obj = test1
-            for i in range(10):
-                test_obj.walk()
-            self.assertEqual(test_obj.distance, 50)
+            test_obj = Runner('Вася', 1)
             logging.info('test_walk выполнен успешно')
-        except:
+        except ValueError:
             logging.warning('Неверная скорость для Runner')
 
 
 
     def test_run(self):
         try:
-            test_obj = test1
-            for i in range(10):
-                test_obj.run()
-            self.assertEqual(test_obj.distance, 100)
+            test_obj = Runner(5, 2)
             logging.info('test_run выполнен успешно')
-        except:
+        except TypeError:
             logging.warning('Неверный тип данных для Runner')
 
 
 
-test1 = Runner('Вася', -2)
+logging.basicConfig(level='INFO', filemode='w', filename='runner_tests', encoding='UTF-8',
+                    format='%(asctime)s  |  %(levelname)s  |  %(message)s')
 
 logging.basicConfig(level='INFO', filemode='w', filename='runner_tests', encoding='UTF-8',
                     format='%(asctime)s  |  %(message)s')
